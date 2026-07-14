@@ -1,10 +1,9 @@
-
 {
-    "name": "arslan-md",
-    "description": "A whatsApp bot based on Baileysjs linrary (Ts+Js) with Multi Device support",
-    "repository": "https://github.com/Arslan-MD/Arslan-Pairing-Site",
-    "logo": "https://files.catbox.moe/a6chsf.jpg",
-    "keywords": ["nodejs", "bot", "whatsapp bot", "whatsapp automation", "multi device"],
+    "name": "NAPPIER-XMD",
+    "description": "NAPPIER-XMD - WhatsApp MD Bot (Baileys) ⚡ Powered by lycifer",
+    "repository": "https://github.com/gathara1/NAPPIER-XMD",
+    "logo": "https://files.catbox.moe/99ofzd.jpg",
+    "keywords": ["nodejs", "bot", "whatsapp bot", "whatsapp automation", "multi device", "NAPPIER-XMD"],
     "buildpacks": [
       {
         "url": "heroku/nodejs"
@@ -16,4 +15,4 @@
       "url": "https://github.com/clhuang/heroku-buildpack-webp-binaries.git"
           }
      ]
-} 
+}
