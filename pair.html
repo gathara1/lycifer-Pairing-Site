@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arslan-MD Ultra Pro Max Dashboard</title>
+  <title>NAPPIER-XMD | Premium Pairing Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: linear-gradient(135deg, #FF4500, #228B22, #00CED1);
-      --secondary: linear-gradient(135deg, #FF1493, #8A2BE2);
+      --primary: linear-gradient(135deg, #00ff88, #00cc66, #0099ff);
+      --secondary: linear-gradient(135deg, #ff2e63, #7209b7);
       --bg: #0a0a12;
-      --glass: rgba(255, 255, 255, 0.08);
-      --glass-dark: rgba(0, 0, 0, 0.4);
+      --glass: rgba(255, 255, 255, 0.06);
+      --glass-dark: rgba(0, 0, 0, 0.5);
       --text: #ffffff;
       --muted: #a0a0c0;
-      --highlight: #00FFFF;
-      --highlight-glow: 0 0 20px rgba(0, 255, 255, 0.7);
+      --highlight: #00ff88;
+      --highlight-glow: 0 0 25px rgba(0, 255, 136, 0.5);
       --radius: 20px;
       --blur: 15px;
       --transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -51,15 +51,15 @@
       height: 100%;
       z-index: -3;
       background: 
-        radial-gradient(circle at 20% 80%, rgba(255, 69, 0, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(34, 139, 34, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(0, 206, 209, 0.1) 0%, transparent 50%);
+        radial-gradient(circle at 20% 80%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 204, 102, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(0, 153, 255, 0.08) 0%, transparent 50%);
       animation: bgPulse 15s ease-in-out infinite;
     }
 
     @keyframes bgPulse {
       0%, 100% { opacity: 0.5; }
-      50% { opacity: 0.8; }
+      50% { opacity: 1; }
     }
 
     /* Particle Background */
@@ -72,7 +72,7 @@
       z-index: -2;
     }
 
-    /* Header with logo */
+    /* Header */
     .header {
       position: fixed;
       top: 0;
@@ -81,104 +81,97 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.2rem 2.5rem;
+      padding: 1rem 2rem;
       background: var(--glass);
       backdrop-filter: blur(var(--blur));
       z-index: 100;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(0, 255, 136, 0.15);
       box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .logo-container {
       display: flex;
       align-items: center;
-      gap: 1.2rem;
+      gap: 1rem;
     }
 
     .logo-img {
-      height: 50px;
-      width: 50px;
+      height: 45px;
+      width: 45px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid transparent;
-      background: var(--primary);
-      padding: 2px;
+      border: 2px solid var(--highlight);
       box-shadow: var(--highlight-glow);
-      animation: logoSpin 10s linear infinite;
+      animation: logoPulse 3s ease-in-out infinite;
     }
 
-    @keyframes logoSpin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    @keyframes logoPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.4); }
+      50% { box-shadow: 0 0 40px rgba(0, 255, 136, 0.8); }
     }
 
     .logo-text {
       font-family: 'Orbitron', sans-serif;
-      font-size: 1.8rem;
+      font-size: 1.4rem;
       font-weight: 900;
       background: var(--primary);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 20px rgba(255, 69, 0, 0.5);
+      text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
       letter-spacing: 1px;
     }
 
-    /* Battery indicator */
+    .logo-text span {
+      font-size: 0.7rem;
+      display: block;
+      -webkit-text-fill-color: var(--muted);
+      background: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      letter-spacing: 2px;
+    }
+
+    /* Battery Indicator */
     .battery-container {
       background: var(--glass-dark);
       border-radius: 50px;
-      padding: 0.7rem 1.5rem;
+      padding: 0.5rem 1.2rem;
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-      font-size: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      gap: 0.6rem;
+      font-size: 0.9rem;
+      border: 1px solid rgba(0, 255, 136, 0.15);
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .battery-container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      transition: left 0.7s ease;
-    }
-
-    .battery-container:hover::before {
-      left: 100%;
     }
 
     .battery-icon {
       color: var(--highlight);
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       filter: drop-shadow(0 0 5px var(--highlight));
     }
 
-    /* Main container */
+    /* Main Container */
     .main-content {
       width: 100%;
-      max-width: 600px;
+      max-width: 550px;
       display: flex;
       flex-direction: column;
-      gap: 2.5rem;
+      gap: 2rem;
       position: relative;
       z-index: 1;
     }
 
-    /* Pairing box */
+    /* Box */
     .box {
       background: var(--glass);
       backdrop-filter: blur(var(--blur));
       border-radius: var(--radius);
-      padding: 2.5rem;
+      padding: 2.5rem 2rem;
       text-align: center;
       box-shadow: var(--shadow);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(0, 255, 136, 0.1);
       transition: var(--transition);
       position: relative;
       overflow: hidden;
@@ -190,128 +183,172 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 4px;
+      height: 3px;
       background: var(--primary);
     }
 
     .box:hover {
-      transform: translateY(-10px);
+      transform: translateY(-5px);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), var(--highlight-glow);
     }
 
     .box h2 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 2.2rem;
-      margin-bottom: 1rem;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
       background: var(--primary);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 20px rgba(255, 69, 0, 0.5);
+      text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
       letter-spacing: 1px;
     }
 
-    .box h5 {
+    .box .subtitle {
       color: var(--muted);
+      font-size: 0.9rem;
       margin-bottom: 1.5rem;
-      font-weight: normal;
-      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 2px;
     }
 
-    /* Input styling */
+    .box .powered {
+      font-size: 0.8rem;
+      color: var(--highlight);
+      margin-bottom: 1.5rem;
+      opacity: 0.7;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+    }
+
+    /* Input */
     .input-container {
       display: flex;
       gap: 0.8rem;
-      margin-bottom: 1.8rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
     }
 
     .input-container input {
       flex: 1;
-      padding: 1.2rem;
+      padding: 1rem 1.2rem;
       border-radius: var(--radius);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       background: var(--glass-dark);
       color: var(--text);
       font-family: inherit;
       transition: var(--transition);
-      font-size: 1.1rem;
+      font-size: 1rem;
+      min-width: 150px;
     }
 
     .input-container input:focus {
       outline: none;
       border-color: var(--highlight);
-      box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.3);
+      box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.2);
+    }
+
+    .input-container input::placeholder {
+      color: var(--muted);
+      opacity: 0.6;
     }
 
     .input-container button {
-      padding: 1.2rem 2rem;
+      padding: 1rem 1.8rem;
       background: var(--primary);
-      color: white;
+      color: #000;
       border: none;
       border-radius: var(--radius);
       font-weight: 700;
       cursor: pointer;
       transition: var(--transition);
       font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
       letter-spacing: 1px;
       text-transform: uppercase;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      white-space: nowrap;
     }
 
     .input-container button:hover {
-      transform: translateY(-5px);
+      transform: translateY(-3px);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), var(--highlight-glow);
     }
 
-    /* Result display */
+    .input-container button:active {
+      transform: scale(0.97);
+    }
+
+    /* Result */
     #pair-result {
-      margin-top: 1.8rem;
-      padding: 1.5rem;
+      margin-top: 1.5rem;
+      padding: 1.2rem;
       border-radius: var(--radius);
       background: var(--glass-dark);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      min-height: 80px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      min-height: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: var(--transition);
+      font-size: 0.95rem;
+      color: var(--muted);
     }
 
+    #pair-result .code-display {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      color: var(--highlight);
+      text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+      letter-spacing: 2px;
+      word-break: break-all;
+    }
+
+    #pair-result .error {
+      color: #ff4444;
+      font-weight: 600;
+    }
+
+    #pair-result .success {
+      color: var(--highlight);
+      font-weight: 600;
+    }
+
+    /* Copy Button */
     #copy-code {
       background: var(--glass);
       border: 2px solid var(--highlight);
-      padding: 1rem 2rem;
+      padding: 0.8rem 2rem;
       border-radius: 50px;
       color: white;
       cursor: pointer;
       font-weight: 700;
       transition: var(--transition);
-      margin-top: 1.5rem;
+      margin-top: 1.2rem;
       display: none;
       font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
       letter-spacing: 1px;
       text-transform: uppercase;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
     }
 
     #copy-code:hover {
-      background: rgba(0, 255, 255, 0.1);
-      box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+      background: rgba(0, 255, 136, 0.1);
+      box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);
       transform: translateY(-3px);
     }
 
-    /* Music player */
+    /* Music Player */
     .music-player {
       width: 100%;
-      max-width: 600px;
+      max-width: 550px;
       background: var(--glass);
       backdrop-filter: blur(var(--blur));
       border-radius: var(--radius);
-      padding: 2rem;
+      padding: 1.5rem 2rem;
       box-shadow: var(--shadow);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(0, 255, 136, 0.1);
       z-index: 90;
       text-align: center;
-      margin-top: 2rem;
       position: relative;
       overflow: hidden;
     }
@@ -322,22 +359,23 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 4px;
+      height: 3px;
       background: var(--secondary);
     }
 
     .music-player h3 {
       color: var(--highlight);
-      margin-bottom: 0.8rem;
-      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
       font-family: 'Orbitron', sans-serif;
-      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+      letter-spacing: 1px;
     }
 
     .music-title {
-      font-weight: bold;
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
       background: var(--secondary);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -345,16 +383,17 @@
 
     .music-subtitle {
       color: var(--muted);
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
     }
 
     .play-btn {
       background: var(--secondary);
       border: none;
       border-radius: 50%;
-      width: 70px;
-      height: 70px;
+      width: 60px;
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -362,50 +401,31 @@
       cursor: pointer;
       box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
       transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .play-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transform: translateX(-100%);
-      transition: transform 0.6s ease;
-    }
-
-    .play-btn:hover::before {
-      transform: translateX(100%);
     }
 
     .play-btn:hover {
       transform: scale(1.1);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 20, 147, 0.5);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 46, 99, 0.4);
     }
 
     .play-btn i {
       color: white;
-      font-size: 1.8rem;
+      font-size: 1.5rem;
     }
 
     .time-display {
-      margin-top: 1.2rem;
-      font-size: 1rem;
+      margin-top: 0.8rem;
+      font-size: 0.8rem;
       color: var(--muted);
       font-family: 'Orbitron', sans-serif;
     }
 
-    /* Progress bar */
     .progress-container {
       width: 100%;
-      height: 6px;
+      height: 4px;
       background: var(--glass-dark);
-      border-radius: 3px;
-      margin-top: 1rem;
+      border-radius: 2px;
+      margin-top: 0.8rem;
       overflow: hidden;
     }
 
@@ -413,39 +433,55 @@
       height: 100%;
       width: 0%;
       background: var(--secondary);
-      border-radius: 3px;
+      border-radius: 2px;
       transition: width 0.3s ease;
     }
 
-    /* Visualizer */
     .visualizer {
       display: flex;
       justify-content: center;
       align-items: flex-end;
-      height: 60px;
-      margin-top: 1.5rem;
-      gap: 4px;
+      height: 40px;
+      margin-top: 1rem;
+      gap: 3px;
     }
 
     .bar {
-      width: 6px;
+      width: 4px;
       background: var(--highlight);
-      border-radius: 3px;
-      transition: height 0.2s ease;
+      border-radius: 2px;
+      transition: height 0.15s ease;
     }
 
-    /* Responsive design */
+    /* Responsive */
     @media (max-width: 768px) {
       .header {
-        padding: 1rem 1.5rem;
+        padding: 0.8rem 1.2rem;
       }
       
       .logo-text {
-        font-size: 1.4rem;
+        font-size: 1.1rem;
+      }
+      
+      .logo-text span {
+        font-size: 0.6rem;
+      }
+      
+      .logo-img {
+        height: 35px;
+        width: 35px;
       }
       
       body {
-        padding: 90px 15px 120px;
+        padding: 80px 15px 100px;
+      }
+      
+      .box {
+        padding: 2rem 1.5rem;
+      }
+      
+      .box h2 {
+        font-size: 1.5rem;
       }
       
       .input-container {
@@ -454,28 +490,53 @@
       
       .input-container button {
         width: 100%;
+        justify-content: center;
       }
       
       .music-player {
         padding: 1.5rem;
       }
       
-      .box, .music-player {
-        padding: 2rem 1.5rem;
+      .battery-container {
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
+      }
+      
+      #pair-result .code-display {
+        font-size: 1.4rem;
       }
     }
 
     @media (max-width: 480px) {
       .logo-text {
-        font-size: 1.2rem;
+        font-size: 0.9rem;
       }
       
       .box h2 {
-        font-size: 1.8rem;
+        font-size: 1.2rem;
       }
       
       .input-container input {
-        padding: 1rem;
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
+      }
+      
+      .input-container button {
+        font-size: 0.7rem;
+        padding: 0.8rem 1.2rem;
+      }
+      
+      #pair-result .code-display {
+        font-size: 1.2rem;
+      }
+      
+      .play-btn {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .play-btn i {
+        font-size: 1.2rem;
       }
     }
   </style>
@@ -487,45 +548,47 @@
   <!-- Particle Background -->
   <div id="particles-js"></div>
 
-  <!-- Header with Logo -->
+  <!-- Header -->
   <header class="header">
     <div class="logo-container">
-      <img src="https://files.catbox.moe/a6chsf.jpg" alt="Arslan-MD bot Logo" class="logo-img">
-      <div class="logo-text">ARSLAN-MD ULTRA PRO MAX</div>
+      <img src="https://files.catbox.moe/99ofzd.jpg" alt="NAPPIER-XMD Logo" class="logo-img">
+      <div class="logo-text">
+        NAPPIER-XMD
+        <span>⚡ Powered by lycifer</span>
+      </div>
     </div>
     
-    <!-- Battery Indicator -->
     <div class="battery-container">
       <i class="fas fa-battery-full battery-icon" id="battery-icon"></i>
       <span id="battery-level">--%</span>
     </div>
   </header>
 
-  <!-- Main Content Container -->
+  <!-- Main Content -->
   <div class="main-content">
     <!-- Pairing Box -->
     <div class="box">
-      <h2>ULTRA PAIRING SYSTEM</h2>
-      <h5>ARSLAN-MD BOT PREMIUM</h5>
-      <p>Enter your number without country code for instant pairing</p>
+      <h2>⚡ SESSION PAIRING</h2>
+      <p class="subtitle">NAPPIER-XMD BOT</p>
+      <p class="powered">⚡ Powered by lycifer</p>
       
       <div class="input-container">
         <input type="number" id="number" placeholder="Enter your number" required>
-        <button id="submit">REQUEST CODE</button>
+        <button id="submit">GET CODE</button>
       </div>
       
       <div id="pair-result">
-        <p id="waiting-message" style="display: none;">Processing your request...</p>
+        <p style="color: var(--muted); font-size: 0.9rem;">Enter your number and click Get Code</p>
       </div>
       
-      <button id="copy-code" onclick="copyCode()">COPY YOUR CODE</button>
+      <button id="copy-code" onclick="copyCode()">📋 COPY CODE</button>
     </div>
 
     <!-- Music Player -->
     <div class="music-player">
-      <h3>PREMIUM MUSIC PLAYER</h3>
-      <div class="music-title">ARSALAN-MD THEME</div>
-      <div class="music-subtitle">ULTRA PRO MAX EDITION</div>
+      <h3>🎵 PREMIUM SOUND</h3>
+      <div class="music-title">NAPPIER-XMD THEME</div>
+      <div class="music-subtitle">⚡ Powered by lycifer</div>
       
       <button class="play-btn" onclick="togglePlay()">
         <i class="fas fa-pause" id="play-icon"></i>
@@ -546,11 +609,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
-    // Initialize particles
+    // Particles
     particlesJS('particles-js', {
       particles: {
         number: { value: 80, density: { enable: true, value_area: 800 } },
-        color: { value: ["#FF4500", "#228B22", "#00CED1", "#FF1493"] },
+        color: { value: ["#00ff88", "#ff2e63", "#7209b7", "#0099ff"] },
         shape: { type: "circle" },
         opacity: { 
           value: 0.5, 
@@ -565,7 +628,7 @@
         line_linked: {
           enable: true,
           distance: 150,
-          color: "#00FFFF",
+          color: "#00ff88",
           opacity: 0.2,
           width: 1
         },
@@ -574,9 +637,7 @@
           speed: 2,
           direction: "none",
           random: true,
-          straight: false,
           out_mode: "out",
-          bounce: false,
           attract: { enable: false, rotateX: 600, rotateY: 1200 }
         }
       },
@@ -591,136 +652,89 @@
       retina_detect: true
     });
 
-    // DOM elements
+    // DOM
     const pairResult = document.getElementById("pair-result");
     const submitBtn = document.getElementById("submit");
     const numberInput = document.getElementById("number");
     const copyCodeBtn = document.getElementById("copy-code");
-    const waitingMessage = document.getElementById("waiting-message");
-    const batteryLevel = document.getElementById("battery-level");
-    const batteryIcon = document.getElementById("battery-icon");
 
-    // Copy code function
+    // Copy
     async function copyCode() {
-      const code = pairResult.innerText.replace('CODE: ', '');
+      const codeText = pairResult.querySelector('.code-display');
+      if (!codeText) return;
+      
+      const code = codeText.textContent;
       try {
         await navigator.clipboard.writeText(code);
-        copyCodeBtn.innerText = "COPIED!";
-        copyCodeBtn.style.background = "linear-gradient(135deg, #00ff00, #00cc00)";
-        copyCodeBtn.style.color = "#000";
+        copyCodeBtn.textContent = "✅ COPIED!";
+        copyCodeBtn.style.borderColor = "#00ff88";
+        copyCodeBtn.style.color = "#00ff88";
         setTimeout(() => {
-          copyCodeBtn.innerText = "COPY CODE";
-          copyCodeBtn.style.background = "";
+          copyCodeBtn.textContent = "📋 COPY CODE";
+          copyCodeBtn.style.borderColor = "";
           copyCodeBtn.style.color = "";
         }, 2000);
       } catch (err) {
-        console.error('Failed to copy: ', err);
+        console.error('Copy failed:', err);
       }
     }
 
-    // Submit handler
-    submitBtn.addEventListener("click", async (e) => {
-      e.preventDefault();
+    // Submit
+    submitBtn.addEventListener("click", async () => {
+      const raw = numberInput.value.replace(/[^0-9]/g, "");
       
-      if (!numberInput.value) {
-        pairResult.innerHTML = '<p style="color:var(--highlight); font-weight:bold;">Please enter your WhatsApp number</p>';
+      if (!raw || raw.length < 10) {
+        pairResult.innerHTML = `<p class="error">⚠️ Please enter a valid phone number</p>`;
+        copyCodeBtn.style.display = "none";
         return;
       }
       
-      const cleanNumber = numberInput.value.replace(/[^0-9]/g, "");
-      
-      if (cleanNumber.length < 11) {
-        pairResult.innerHTML = '<p style="color:#ff5555; font-weight:bold;">Invalid Number Format</p>';
-        return;
-      }
-      
-      // Format number display
-      let formattedNumber = "";
-      const digits = cleanNumber.split('');
-      digits.forEach((digit, index) => {
-        formattedNumber += digit;
-        if (index === 2 || index === 7) {
-          formattedNumber += " ";
-        }
-      });
-      
-      numberInput.type = "text";
-      numberInput.value = "+" + formattedNumber;
-      numberInput.style.color = "var(--highlight)";
-      numberInput.style.fontWeight = "bold";
-      
-      waitingMessage.style.display = "block";
-      pairResult.innerHTML = "";
+      pairResult.innerHTML = `<p class="success">⏳ Processing request...</p>`;
       copyCodeBtn.style.display = "none";
       
-      // Simulate API call with loading animation
-      let dots = 0;
-      const loadingInterval = setInterval(() => {
-        dots = (dots + 1) % 4;
-        waitingMessage.textContent = "Processing your request" + ".".repeat(dots);
-      }, 500);
-      
       try {
-        // Simulate API delay
-        setTimeout(async () => {
-          try {
-            const { data } = await axios(`/code?number=${cleanNumber}`);
-            const code = data.code || "SERVICE_UNAVAILABLE";
-            
-            clearInterval(loadingInterval);
-            pairResult.innerHTML = `
-              <p style="color:var(--highlight); font-weight:bold; font-size:1.4rem;">
-                CODE: <span style="color:white; text-shadow: 0 0 10px white;">${code}</span>
-              </p>
-            `;
-            copyCodeBtn.style.display = "inline-block";
-            waitingMessage.style.display = "none";
-            
-            // Add success animation
-            pairResult.style.animation = "pulse 0.5s ease";
-            setTimeout(() => {
-              pairResult.style.animation = "";
-            }, 500);
-          } catch (error) {
-            clearInterval(loadingInterval);
-            pairResult.innerHTML = '<p style="color:#ff5555; font-weight:bold;">Error getting pairing code</p>';
-            waitingMessage.style.display = "none";
-          }
-        }, 2000);
+        const { data } = await axios(`/code?number=${raw}`);
+        const code = data.code || "ERROR";
+        
+        if (code === "ERROR" || code.includes("Service")) {
+          pairResult.innerHTML = `<p class="error">❌ Service unavailable. Try again.</p>`;
+        } else {
+          pairResult.innerHTML = `
+            <div>
+              <p style="color: var(--muted); font-size: 0.8rem; margin-bottom: 0.5rem;">🔑 Your Pairing Code</p>
+              <div class="code-display">${code}</div>
+            </div>
+          `;
+          copyCodeBtn.style.display = "inline-block";
+        }
       } catch (error) {
-        clearInterval(loadingInterval);
-        pairResult.innerHTML = '<p style="color:#ff5555; font-weight:bold;">Network Error</p>';
-        waitingMessage.style.display = "none";
+        pairResult.innerHTML = `<p class="error">❌ Network error. Please try again.</p>`;
+        copyCodeBtn.style.display = "none";
       }
     });
 
-    // Music player controls
+    // Enter key
+    numberInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") submitBtn.click();
+    });
+
+    // Music
     const audio = document.getElementById('audio1');
-    const playBtn = document.querySelector('.play-btn');
     const playIcon = document.getElementById('play-icon');
     const timeDisplay = document.getElementById('time1');
     const progressBar = document.getElementById('progress-bar');
     const visualizer = document.getElementById('visualizer');
 
-    // Create visualizer bars
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 25; i++) {
       const bar = document.createElement('div');
       bar.className = 'bar';
-      bar.style.height = `${Math.random() * 40 + 10}px`;
+      bar.style.height = `${Math.random() * 30 + 8}px`;
       visualizer.appendChild(bar);
     }
-
     const bars = document.querySelectorAll('.bar');
 
-    // Auto-play music when page loads (with user interaction)
     document.addEventListener('click', function initAudio() {
-      audio.play().then(() => {
-        playIcon.classList.replace('fa-play', 'fa-pause');
-        updateTimeDisplay();
-        animateVisualizer();
-      }).catch(error => {
-        console.log('Auto-play prevented:', error);
-      });
+      audio.play().catch(() => {});
       document.removeEventListener('click', initAudio);
     }, { once: true });
 
@@ -736,23 +750,17 @@
     }
 
     function updateTimeDisplay() {
-      const minutes = Math.floor(audio.currentTime / 60);
-      const seconds = Math.floor(audio.currentTime % 60);
-      timeDisplay.textContent = `${minutes}:${String(seconds).padStart(2, '0')}`;
-      
-      // Update progress bar
-      const progress = (audio.currentTime / audio.duration) * 100;
-      progressBar.style.width = `${progress}%`;
-      
-      if (!audio.paused) {
-        requestAnimationFrame(updateTimeDisplay);
-      }
+      const m = Math.floor(audio.currentTime / 60);
+      const s = Math.floor(audio.currentTime % 60);
+      timeDisplay.textContent = `${m}:${String(s).padStart(2, '0')}`;
+      progressBar.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+      if (!audio.paused) requestAnimationFrame(updateTimeDisplay);
     }
 
     function animateVisualizer() {
       if (!audio.paused) {
         bars.forEach(bar => {
-          bar.style.height = `${Math.random() * 50 + 10}px`;
+          bar.style.height = `${Math.random() * 40 + 8}px`;
         });
         requestAnimationFrame(animateVisualizer);
       }
@@ -760,60 +768,31 @@
 
     audio.addEventListener('timeupdate', updateTimeDisplay);
 
-    // Battery status indicator
+    // Battery
     async function updateBattery() {
       if (navigator.getBattery) {
         try {
           const battery = await navigator.getBattery();
-          
-          const updateBatteryUI = () => {
-            const batteryPercent = Math.round(battery.level * 100);
-            batteryLevel.textContent = `${batteryPercent}%`;
-            
-            // Update battery icon based on level
-            let iconClass = 'fa-battery-empty';
-            if (batteryPercent > 80) iconClass = 'fa-battery-full';
-            else if (batteryPercent > 60) iconClass = 'fa-battery-three-quarters';
-            else if (batteryPercent > 40) iconClass = 'fa-battery-half';
-            else if (batteryPercent > 20) iconClass = 'fa-battery-quarter';
-            
-            // Add charging bolt if charging
-            if (battery.charging) {
-              batteryIcon.className = `fas fa-bolt ${iconClass}`;
-              batteryIcon.style.color = '#00ff00';
-              batteryIcon.style.filter = 'drop-shadow(0 0 8px #00ff00)';
-            } else {
-              batteryIcon.className = `fas ${iconClass}`;
-              batteryIcon.style.color = 'var(--highlight)';
-              batteryIcon.style.filter = 'drop-shadow(0 0 5px var(--highlight))';
-            }
+          const updateUI = () => {
+            const pct = Math.round(battery.level * 100);
+            document.getElementById('battery-level').textContent = `${pct}%`;
           };
-          
-          battery.addEventListener('levelchange', updateBatteryUI);
-          battery.addEventListener('chargingchange', updateBatteryUI);
-          updateBatteryUI();
-        } catch (error) {
-          console.error('Battery API error:', error);
-        }
-      } else {
-        batteryLevel.textContent = "N/A";
+          battery.addEventListener('levelchange', updateUI);
+          battery.addEventListener('chargingchange', updateUI);
+          updateUI();
+        } catch (e) {}
       }
     }
+    updateBattery();
 
-    // Initialize
-    window.addEventListener('load', () => {
-      copyCodeBtn.style.display = "none";
-      updateBattery();
-      
-      // Smooth page load
-      document.body.style.opacity = '0';
-      document.body.style.transform = 'translateY(20px)';
-      setTimeout(() => {
-        document.body.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        document.body.style.opacity = '1';
-        document.body.style.transform = 'translateY(0)';
-      }, 100);
-    });
+    // Page load animation
+    document.body.style.opacity = '0';
+    document.body.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      document.body.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+      document.body.style.opacity = '1';
+      document.body.style.transform = 'translateY(0)';
+    }, 100);
   </script>
 </body>
 </html>
