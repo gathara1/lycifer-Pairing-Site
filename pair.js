@@ -1,5 +1,3 @@
-const PastebinAPI = require('pastebin-js');
-const pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL');
 const { makeid } = require('./id');
 const express = require('express');
 const fs = require('fs');
@@ -12,7 +10,6 @@ const {
     makeCacheableSignalKeyStore,
     Browsers
 } = require('@whiskeysockets/baileys');
-const { upload } = require('./mega');
 
 function removeFile(FilePath) {
     if (!fs.existsSync(FilePath)) return false;
@@ -57,7 +54,6 @@ router.get('/', async (req, res) => {
                     await delay(5000);
                     
                     const rf = __dirname + '/temp/' + id + '/creds.json';
-                    const safeId = sock.user.id.replace(/[^0-9a-zA-Z]/g, '_');
                     const myJid = sock.user.id.split(':')[0] + '@s.whatsapp.net';
                     
                     console.log('[pair.js] Connection open! user:', sock.user.id, '→ sending to:', myJid);
@@ -68,30 +64,13 @@ router.get('/', async (req, res) => {
                             return;
                         }
 
-                        // ─── Upload to Mega ──────────────────────────────
-                        let string_session = null;
-                        for (let attempt = 1; attempt <= 3; attempt++) {
-                            try {
-                                const mega_url = await upload(fs.createReadStream(rf), safeId + '.json');
-                                string_session = mega_url.replace('https://mega.nz/file/', '');
-                                console.log('[session] Mega upload OK on attempt', attempt);
-                                break;
-                            } catch (megaErr) {
-                                console.error('[session] Mega attempt', attempt, 'failed:', megaErr.message);
-                                if (attempt < 3) await new Promise(r => setTimeout(r, 3000 * attempt));
-                            }
-                        }
-
-                        if (!string_session) {
-                            console.error('[pair.js] Mega failed all attempts');
-                            await sock.sendMessage(myJid, {
-                                text: '❌ Session upload failed. Please try pairing again.',
-                            }).catch(() => {});
-                            return;
-                        }
-
-                        // ─── Send SESSION_ID ──────────────────────────────
-                        const sessionId = 'NAPPIER-XMD!' + string_session;
+                        // ─── Read and convert to base64 ───────────────────
+                        const data = fs.readFileSync(rf);
+                        const b64data = Buffer.from(data).toString('base64');
+                        
+                        // ─── Send session via base64 ──────────────────────
+                        const sessionId = 'NAPPIER-XMD~' + b64data;
+                        
                         await sock.sendMessage(myJid, {
                             text: `✅ *SESSION CONNECTED SUCCESSFULLY!*
 
