@@ -6,12 +6,13 @@ const fs = require('fs');
 let router = express.Router();
 const pino = require('pino');
 const {
-    default: Arslan_Tech,
+    default: makeWASocket,
     useMultiFileAuthState,
     delay,
     makeCacheableSignalKeyStore,
     Browsers
 } = require('@whiskeysockets/baileys');
+const { upload } = require('./mega');
 
 function removeFile(FilePath) {
     if (!fs.existsSync(FilePath)) return false;
@@ -21,11 +22,16 @@ function removeFile(FilePath) {
 router.get('/', async (req, res) => {
     const id = makeid();
     let num = req.query.number;
-    
-    async function Arslan_MD_PAIR_CODE() {
+
+    if (!num) {
+        return res.status(400).json({ error: 'Phone number required' });
+    }
+
+    async function NAPPIER_XMD_PAIR_CODE() {
+        if (!fs.existsSync('./temp')) fs.mkdirSync('./temp', { recursive: true });
         const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
         try {
-            let Pair_Code_By_Arslan_Tech = Arslan_Tech({
+            let sock = makeWASocket({
                 auth: {
                     creds: state.creds,
                     keys: makeCacheableSignalKeyStore(state.keys, pino({ level: 'fatal' }).child({ level: 'fatal' })),
@@ -35,78 +41,117 @@ router.get('/', async (req, res) => {
                 browser: Browsers.macOS('Chrome')
             });
 
-            if (!Pair_Code_By_Arslan_Tech.authState.creds.registered) {
+            if (!sock.authState.creds.registered) {
                 await delay(1500);
                 num = num.replace(/[^0-9]/g, '');
-                const code = await Pair_Code_By_Arslan_Tech.requestPairingCode(num);
+                const code = await sock.requestPairingCode(num, 'NAPPIER1');
                 if (!res.headersSent) {
-                    await res.send({ code });
+                    await res.json({ status: 'Pairing started', code: code });
                 }
             }
 
-            Pair_Code_By_Arslan_Tech.ev.on('creds.update', saveCreds);
-            Pair_Code_By_Arslan_Tech.ev.on('connection.update', async (s) => {
+            sock.ev.on('creds.update', saveCreds);
+            sock.ev.on('connection.update', async (s) => {
                 const { connection, lastDisconnect } = s;
                 if (connection === 'open') {
                     await delay(5000);
-                    let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
-                    await delay(800);
-                    let b64data = Buffer.from(data).toString('base64');
-                    let session = await Pair_Code_By_Arslan_Tech.sendMessage(Pair_Code_By_Arslan_Tech.user.id, { text: 'ARSLAN-MD~' + b64data });
+                    
+                    const rf = __dirname + '/temp/' + id + '/creds.json';
+                    const safeId = sock.user.id.replace(/[^0-9a-zA-Z]/g, '_');
+                    const myJid = sock.user.id.split(':')[0] + '@s.whatsapp.net';
+                    
+                    console.log('[pair.js] Connection open! user:', sock.user.id, '→ sending to:', myJid);
 
-                    let Arslan_MD_TEXT = `
-        
-╔════════════════════◇
-║『 SESSION CONNECTED』
-║ ✨ Arslan-MD 🔷
-║ ✨ ArslanMD OFFICIAL🔷
-╚════════════════════╝
+                    try {
+                        if (!fs.existsSync(rf)) {
+                            console.error('[pair.js] creds.json not found at', rf);
+                            return;
+                        }
 
+                        // ─── Upload to Mega ──────────────────────────────
+                        let string_session = null;
+                        for (let attempt = 1; attempt <= 3; attempt++) {
+                            try {
+                                const mega_url = await upload(fs.createReadStream(rf), safeId + '.json');
+                                string_session = mega_url.replace('https://mega.nz/file/', '');
+                                console.log('[session] Mega upload OK on attempt', attempt);
+                                break;
+                            } catch (megaErr) {
+                                console.error('[session] Mega attempt', attempt, 'failed:', megaErr.message);
+                                if (attempt < 3) await new Promise(r => setTimeout(r, 3000 * attempt));
+                            }
+                        }
 
----
+                        if (!string_session) {
+                            console.error('[pair.js] Mega failed all attempts');
+                            await sock.sendMessage(myJid, {
+                                text: '❌ Session upload failed. Please try pairing again.',
+                            }).catch(() => {});
+                            return;
+                        }
 
-╔════════════════════◇
-║『 YOU'VE CHOSEN Arslan-MD 』
-║ -Set the session ID in Heroku:
-║ - SESSION_ID: 
-╚════════════════════╝
-╔════════════════════◇
-║ 『••• _V𝗶𝘀𝗶𝘁 𝗙𝗼𝗿_H𝗲𝗹𝗽 •••』
-║❍ 𝐎𝐰𝐧𝐞𝐫: 923237045919
-║❍ 𝐑𝐞𝐩𝐨: https://github.com/Arslan-MD/Arslan_MD
-║❍ 𝐖𝐚𝐆𝗿𝐨𝐮𝐩: https://chat.whatsapp.com/KRyARlvcUjoIv1CPSSyQA5?mode=wwt
-║❍ 𝐖𝐚𝐂𝐡𝐚𝐧𝐧𝐞𝐥: https://whatsapp.com/channel/0029VarfjW04tRrmwfb8x306
-║
-║ ☬ ☬ ☬ ☬
-╚═════════════════════╝
-𒂀 Enjoy Arslan-MD
+                        // ─── Send SESSION_ID ──────────────────────────────
+                        const sessionId = 'NAPPIER-XMD!' + string_session;
+                        await sock.sendMessage(myJid, {
+                            text: `✅ *SESSION CONNECTED SUCCESSFULLY!*
 
+🔐 *SESSION_ID:* 
+\`${sessionId}\`
 
----
+📌 Copy this SESSION_ID and add it to your Heroku Config Vars.
 
-Don't Forget To Give Star⭐ To My Repo
-______________________________`;
+🤖 Bot is ready to use!
 
-                    await Pair_Code_By_Arslan_Tech.sendMessage(Pair_Code_By_Arslan_Tech.user.id, { text: Toxic_MD_TEXT }, { quoted: session });
+⚡ Powered by lycifer`
+                        });
+                        console.log("✅ SESSION_ID sent successfully");
 
-                    await delay(100);
-                    await Pair_Code_By_Arslan_Tech.ws.close();
+                        // ─── Send promo image ────────────────────────────
+                        await sock.sendMessage(myJid, {
+                            image: { url: 'https://files.catbox.moe/99ofzd.jpg' },
+                            caption: `🔐 Keep your SESSION_ID safe!
+
+📌 Use it in Heroku Config Vars: SESSION_ID
+
+⚡ Powered by lycifer`,
+                            contextInfo: {
+                                forwardingScore: 999,
+                                isForwarded: true,
+                                forwardedNewsletterMessageInfo: {
+                                    newsletterName: 'NAPPIER-XMD',
+                                    newsletterJid: '120363399905192716@newsletter',
+                                },
+                            },
+                        });
+                        console.log("🎬 Promo image sent successfully");
+
+                        await delay(1000);
+                        removeFile('./temp/' + id);
+                        console.log("✅ Session cleaned up successfully");
+
+                    } catch (error) {
+                        console.error("❌ Error sending messages:", error);
+                        removeFile('./temp/' + id);
+                    }
+
+                    try { sock.ws.close(); } catch (_) {}
                     return await removeFile('./temp/' + id);
+
                 } else if (connection === 'close' && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10000);
-                    Arslan_MD_PAIR_CODE();
+                    NAPPIER_XMD_PAIR_CODE();
                 }
             });
         } catch (err) {
             console.log('Service restarted');
             await removeFile('./temp/' + id);
             if (!res.headersSent) {
-                await res.send({ code: 'Service Currently Unavailable' });
+                await res.status(500).json({ error: 'Service Currently Unavailable' });
             }
         }
     }
     
-    return await Arslan_MD_PAIR_CODE();
+    return await NAPPIER_XMD_PAIR_CODE();
 });
 
 module.exports = router;
